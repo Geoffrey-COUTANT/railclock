@@ -55,7 +55,7 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(details)" options={{ headerShown: false }} />
+        <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
       </Stack>
       <StatusBar barStyle="dark-content" backgroundColor={"transparent"} />
     </ThemeProvider>
