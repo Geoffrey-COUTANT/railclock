@@ -9,8 +9,8 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-
 import { useColorScheme } from "@/components/useColorScheme";
+import { StatusBar } from "react-native";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -19,7 +19,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
+  initialRouteName: "(onboarding)",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -55,30 +55,9 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            title: "Accueil",
-            headerShown: true,
-          }}
-        />
-        <Stack.Screen
-          name="profile"
-          options={{
-            title: "Profil",
-            headerShown: true,
-          }}
-        />
-        <Stack.Screen
-          name="settings"
-          options={{
-            title: "Paramètres",
-            headerShown: true,
-          }}
-        />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+        <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
       </Stack>
+      <StatusBar barStyle="dark-content" backgroundColor={"transparent"} />
     </ThemeProvider>
   );
 }
