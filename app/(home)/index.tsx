@@ -1,7 +1,14 @@
-import { StyleSheet, TextInput, Pressable } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  Pressable,
+  ScrollView,
+  View,
+} from "react-native";
 import React from "react";
-import { Text, View } from "@/components/Themed";
+import { Text } from "@/components/Themed";
 import CardTrain from "@/components/CardTrain";
+
 export default function TabOneScreen() {
   const [departCity, setDepartCity] = React.useState("");
   const [arrivalCity, setArrivalCity] = React.useState("");
@@ -29,7 +36,32 @@ export default function TabOneScreen() {
         <Text style={styles.buttonText}>Rechercher</Text>
       </Pressable>
       <Text style={styles.sectionTitle}>Mes trajets</Text>
-      <CardTrain />
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <CardTrain status="onTime" scheduledTime="10:00" />
+        <CardTrain
+          status="delayed"
+          scheduledTime="11:00"
+          actualTime="11:30"
+          delayDuration="30 min"
+        />
+        <CardTrain status="cancelled" scheduledTime="12:00" />
+        <CardTrain
+          status="onTime"
+          scheduledTime="14:30"
+          actualTime="15:00"
+          delayDuration="30 min"
+          additionalInfo="Difficultés lors de la préparation du train"
+        />
+
+        <CardTrain
+          status="onTime"
+          scheduledTime="16:45"
+          additionalInfo="Réutilisation d'un train"
+        />
+      </ScrollView>
     </View>
   );
 }
@@ -40,6 +72,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 40,
     backgroundColor: "#fff",
+    width: "100%",
   },
   logoContainer: {
     marginBottom: 40,
@@ -78,5 +111,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginTop: 40,
+    marginBottom: 20,
+  },
+  scrollView: {
+    flex: 1,
+    width: "100%",
+  },
+  contentContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    gap: 10,
+    width: "100%",
   },
 });
