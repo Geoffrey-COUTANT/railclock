@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import {StatusBar} from "react-native";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -53,6 +54,7 @@ function RootLayoutNav() {
       <Stack>
         <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
       </Stack>
+      <StatusBar barStyle="dark-content" backgroundColor={'transparent'} />
     </ThemeProvider>
   );
 }
