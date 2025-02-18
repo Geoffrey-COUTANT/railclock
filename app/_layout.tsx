@@ -12,6 +12,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import { StatusBar } from "react-native";
 import type {Theme} from "@react-navigation/native/src/types";
 import {fonts} from "@react-navigation/native/src/theming/fonts";
+import * as NavigationBar from 'expo-navigation-bar';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -44,6 +45,11 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync('#ffffff')
+    NavigationBar.setButtonStyleAsync("dark");
+  });
 
   if (!loaded) {
     return null;

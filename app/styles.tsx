@@ -56,7 +56,7 @@ export const globalStyles = StyleSheet.create({
         fontSize: 30,
         fontFamily: "BricolageGrotesqueBold",
         lineHeight: 30,
-        height: 20
+        height: 25
     },
     separator: {
         marginVertical: 30,
