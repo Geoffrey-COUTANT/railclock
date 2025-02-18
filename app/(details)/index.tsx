@@ -13,7 +13,7 @@ export default function DetailsScreen() {
             <View style={globalStyles.list}>
                 <View>
                     <Image source={require('./images/map.png')} style={globalStyles.headerImage}/>
-                    <BackButton/>
+                    <BackButton offset={60}/>
                 </View>
                 <View style={globalStyles.paddedBox}>
                     <View style={globalStyles.horizontalList}>

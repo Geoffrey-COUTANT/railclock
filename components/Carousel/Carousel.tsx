@@ -28,17 +28,6 @@ const CarouselComponent: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            <Carousel
-                data={data}
-                renderItem={renderItem}
-                sliderWidth={width}
-                itemWidth={width * 0.8}
-                layout="default"
-                horizontal={true}
-                inactiveSlideScale={0.9}
-                inactiveSlideOpacity={0.7}
-                onSnapToItem={(index) => setActiveIndex(index)}
-            />
         </View>
     );
 };
