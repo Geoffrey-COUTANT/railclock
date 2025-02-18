@@ -37,6 +37,10 @@ export default function DetailsScreen() {
                         </View>
                     </View>
                 </View>
+                <View style={[globalStyles.paddedBox, globalStyles.noMarginsX]}>
+                    <Text style={globalStyles.textBody}>Train TER L51</Text>
+                    <Text style={globalStyles.textBody}>n° 866543</Text>
+                </View>
                 <View style={[globalStyles.list, globalStyles.paddedBox, globalStyles.listGap]}>
                     <TrainStopCard style={TrainStopCardStyle.Default} stopName={"Bordeaux St Jean"} stopHour={"08:45"}/>
                     <TrainStopCard style={TrainStopCardStyle.Default} stopName={"Pessac"} stopHour={"08:50"}/>

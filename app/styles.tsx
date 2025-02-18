@@ -40,6 +40,9 @@ export const globalStyles = StyleSheet.create({
     paddedBox: {
         padding: 20,
     },
+    noMarginsX: {
+        paddingVertical: 0,
+    },
     title: {
         fontSize: 25,
         fontFamily: "BricolageGrotesqueSemiBold",
