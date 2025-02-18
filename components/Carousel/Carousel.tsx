@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, Image, Dimensions, StyleSheet } from "react-native";
-import Carousel from "react-native-snap-carousel";
+import React, { useRef, useState } from "react";
+import { View, Text, Image, ScrollView, Dimensions, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, } from "react-native";
 
 interface SlideItem {
     id: string;
@@ -9,53 +8,64 @@ interface SlideItem {
 }
 
 const data: SlideItem[] = [
-    { id: "1", title: "Bienvenue", image: require("./images/railclock-left.png") },
-    { id: "2", title: "Découvrez", image: require("./images/railclock-left.png") },
-    { id: "3", title: "Commencez", image: require("./images/Resultats_recherche-left.png") },
+    { id: "1", title: "Bienvenue", image: require("../assets/image1.png") },
+    { id: "2", title: "Découvrez", image: require("../assets/image2.png") },
+    { id: "3", title: "Commencez", image: require("../assets/image3.png") },
 ];
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const CarouselComponent: React.FC = () => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const scrollViewRef = useRef<ScrollView>(null);
 
-    const renderItem = ({ item }: { item: SlideItem }) => (
-        <View style={styles.slide}>
-            <Image source={item.image} style={styles.image} />
-            <Text style={styles.title}>{item.title}</Text>
-        </View>
-    );
+    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const contentOffsetX = event.nativeEvent.contentOffset.x;
+        const index = Math.round(contentOffsetX / width);
+        setActiveIndex(index);
+    };
 
     return (
-        <View style={styles.container}>
-            <Carousel
-                data={data}
-                renderItem={renderItem}
-                sliderWidth={width}
-                itemWidth={width * 0.8}
-                layout="default"
-                horizontal={true}
-                inactiveSlideScale={0.9}
-                inactiveSlideOpacity={0.7}
-                onSnapToItem={(index) => setActiveIndex(index)}
-            />
+        <View>
+            {/* SCROLLVIEW HORIZONTAL */}
+            <ScrollView
+                ref={scrollViewRef}
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                onScroll={handleScroll}
+                scrollEventThrottle={16}
+            >
+                {data.map((item) => (
+                    <View key={item.id} style={styles.slide}>
+                        <Image source={item.image} style={styles.image} />
+                        <Text style={styles.title}>{item.title}</Text>
+                    </View>
+                ))}
+            </ScrollView>
+
+            {/* INDICATEURS DE PAGINATION */}
+            <View style={styles.pagination}>
+                {data.map((_, index) => (
+                    <View
+                        key={index}
+                        style={[
+                            styles.dot,
+                            activeIndex === index ? styles.activeDot : styles.inactiveDot,
+                        ]}
+                    />
+                ))}
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: "center",
-    },
     slide: {
+        width,
+        justifyContent: "center",
         alignItems: "center",
         padding: 20,
-        borderRadius: 10,
-        backgroundColor: "#fff",
-        shadowColor: "#000",
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 5,
     },
     image: {
         width: 280,
@@ -66,6 +76,23 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         marginTop: 10,
+    },
+    pagination: {
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: 10,
+    },
+    dot: {
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        marginHorizontal: 5,
+    },
+    activeDot: {
+        backgroundColor: "blue",
+    },
+    inactiveDot: {
+        backgroundColor: "gray",
     },
 });
 
