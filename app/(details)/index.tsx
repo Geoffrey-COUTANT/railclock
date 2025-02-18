@@ -1,29 +1,39 @@
-import { StyleSheet } from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import {Text, View} from '@/components/Themed';
+import {CornerDownRight} from "lucide-react-native";
+import {red} from "react-native-reanimated/lib/typescript/Colors";
+import {globalStyles} from "@/app/styles"
+import {BackButton} from "@/components/BackButton";
 
 export default function DetailsScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>DETAILS</Text>
-    </View>
-  );
-}
+    return (
+        <View style={globalStyles.container}>
+            <View style={globalStyles.list}>
+                <View>
+                    <Image source={require('./images/map.png')} style={globalStyles.headerImage}/>
+                    <BackButton/>
+                </View>
+                <View style={globalStyles.paddedBox}>
+                    <View style={globalStyles.horizontalList}>
+                        <View style={globalStyles.list}>
+                            <Text style={globalStyles.title}>Ychoux</Text>
+                            <View style={globalStyles.horizontalList}>
+                                <CornerDownRight style={globalStyles.iconDim} />
+                                <Text style={globalStyles.title}>Bordeaux St Jean</Text>
+                            </View>
+                        </View>
+                        <View style={globalStyles.full}>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  }
-});
+                        </View>
+                        <View style={globalStyles.listRight}>
+                            <Text style={globalStyles.hourText}>08:00</Text>
+                            <Text style={globalStyles.textBody}>à l'heure</Text>
+                        </View>
+                    </View>
+                </View>
+            </View>
+        </View>
+    );
+}
