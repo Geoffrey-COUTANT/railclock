@@ -60,7 +60,7 @@ function RootLayoutNav() {
         <Stack.Screen name="(home)" options={{ headerShown: false }} />
         <Stack.Screen name="(details)" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar barStyle="dark-content" backgroundColor={"transparent"} />
+      <StatusBar barStyle="dark-content" backgroundColor={"transparent"} translucent={true} />
     </ThemeProvider>
   );
 }

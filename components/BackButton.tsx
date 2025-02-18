@@ -4,11 +4,13 @@ import {ChevronLeft} from "lucide-react-native";
 import {globalStyles} from "@/app/styles";
 import {Link, useNavigation} from "expo-router";
 
-export function BackButton() {
+
+
+export function BackButton({ offset }: { offset: number }) {
     const navigation = useNavigation();
 
     return (
-        <Pressable style={styles.background} onPress={() => {navigation.goBack()}}>
+        <Pressable style={[styles.background, { top: offset }]} onPress={() => {navigation.goBack()}}>
             <View>
                 <ChevronLeft style={globalStyles.icon} />
             </View>
