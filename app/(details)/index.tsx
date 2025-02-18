@@ -2,6 +2,8 @@ import {Image, StyleSheet} from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import {Text, View} from '@/components/Themed';
+import {CornerDownRight} from "lucide-react-native";
+import {red} from "react-native-reanimated/lib/typescript/Colors";
 
 export default function DetailsScreen() {
     return (
@@ -12,14 +14,17 @@ export default function DetailsScreen() {
                     <View style={styles.horizontalList}>
                         <View style={styles.list}>
                             <Text style={styles.title}>Ychoux</Text>
-                            <Text style={styles.title}>Bordeaux St Jean</Text>
+                            <View style={styles.horizontalList}>
+                                <CornerDownRight style={styles.icon} />
+                                <Text style={styles.title}>Bordeaux St Jean</Text>
+                            </View>
                         </View>
                         <View style={styles.full}>
 
                         </View>
                         <View style={styles.listRight}>
-                            <Text style={styles.title}>08:00</Text>
-                            <Text style={styles.title}>à l'heure</Text>
+                            <Text style={styles.hourText}>08:00</Text>
+                            <Text style={styles.textBody}>à l'heure</Text>
                         </View>
                     </View>
                 </View>
@@ -49,13 +54,29 @@ const styles = StyleSheet.create({
     horizontalList: {
         display: "flex",
         flexDirection: "row",
+        alignItems: "center",
+        gap: 5
+    },
+    icon: {
+        color: "black",
+        opacity: 0.5
     },
     paddedBox: {
         padding: 20,
     },
     title: {
-        fontSize: 20,
-        fontWeight: 'bold',
+        fontSize: 25,
+        fontFamily: "BricolageGrotesqueSemiBold",
+        lineHeight: 30
+    },
+    textBody: {
+        fontSize: 18,
+        fontFamily: "BricolageGrotesqueRegular",
+    },
+    hourText: {
+        fontSize: 30,
+        fontFamily: "BricolageGrotesqueBold",
+        lineHeight: 30
     },
     separator: {
         marginVertical: 30,

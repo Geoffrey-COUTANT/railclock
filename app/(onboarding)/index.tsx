@@ -2,6 +2,7 @@ import { StyleSheet, TextInput, Pressable } from "react-native";
 import React from "react";
 import { Text, View } from "@/components/Themed";
 import CardTrain from "@/components/CardTrain";
+import {Link} from "expo-router";
 
 export default function TabOneScreen() {
   const [departCity, setDepartCity] = React.useState("");
