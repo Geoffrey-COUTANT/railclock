@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import { useColorScheme } from "@/components/useColorScheme";
 import { StatusBar } from "react-native";
+import type {Theme} from "@react-navigation/native/src/types";
+import {fonts} from "@react-navigation/native/src/theming/fonts";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,11 +52,24 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+export const RailclockTheme: Theme = {
+  dark: false,
+  colors: {
+    primary: '#210010',
+    background: '#fff',
+    card: 'rgb(255, 255, 255)',
+    text: '#210010',
+    border: 'rgb(216, 216, 216)',
+    notification: 'rgb(255, 59, 48)',
+  },
+  fonts,
+};
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={DefaultTheme}>
+    <ThemeProvider value={RailclockTheme}>
       <Stack>
         <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
         <Stack.Screen name="(home)" options={{ headerShown: false }} />

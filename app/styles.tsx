@@ -14,6 +14,12 @@ export const globalStyles = StyleSheet.create({
     list: {
         display: "flex",
     },
+    listGap: {
+        gap: 10
+    },
+    marginBox: {
+        marginHorizontal: 8,
+    },
     listRight: {
         display: "flex",
         alignItems: "flex-end",
@@ -46,7 +52,8 @@ export const globalStyles = StyleSheet.create({
     hourText: {
         fontSize: 30,
         fontFamily: "BricolageGrotesqueBold",
-        lineHeight: 30
+        lineHeight: 30,
+        height: 20
     },
     separator: {
         marginVertical: 30,
