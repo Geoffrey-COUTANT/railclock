@@ -8,6 +8,7 @@ import {globalStyles} from "@/app/styles"
 import {BackButton} from "@/components/BackButton";
 import {TrainStopCard, TrainStopCardStyle} from "@/components/TrainStopCard";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import MapView, {Polyline} from "react-native-maps";
 
 export default function DetailsScreen() {
     const {top} = useSafeAreaInsets();
@@ -16,7 +17,13 @@ export default function DetailsScreen() {
         <View style={globalStyles.container}>
             <View style={globalStyles.list}>
                 <View>
-                    <Image source={require('./images/map.png')} style={globalStyles.headerImage}/>
+                    <MapView style={[globalStyles.headerImage, {pointerEvents: "none"}]} initialRegion={{
+                        latitude: 44.83831751856611,
+                        longitude: -0.5814277586099266,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}>
+                    </MapView>
                     <BackButton offset={top}/>
                 </View>
                 <View style={globalStyles.paddedBox}>
@@ -24,7 +31,7 @@ export default function DetailsScreen() {
                         <View style={globalStyles.list}>
                             <Text style={globalStyles.title}>Bordeaux St Jean</Text>
                             <View style={globalStyles.horizontalList}>
-                                <CornerDownRight style={globalStyles.iconDim} />
+                                <CornerDownRight style={globalStyles.iconDim}/>
                                 <Text style={globalStyles.title}>Ychoux</Text>
                             </View>
                         </View>
