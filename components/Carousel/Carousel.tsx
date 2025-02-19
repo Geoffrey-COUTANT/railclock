@@ -1,6 +1,20 @@
 import React, { useRef, useState } from "react";
-import { View, Text, Image, ScrollView, Dimensions, StyleSheet, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
+import {
+    View,
+    Text,
+    Image,
+    ScrollView,
+    Dimensions,
+    StyleSheet,
+    NativeSyntheticEvent,
+    NativeScrollEvent,
+    Button, Pressable
+} from "react-native";
 import {useSafeAreaFrame, useSafeAreaInsets} from "react-native-safe-area-context";
+import {globalStyles} from "@/app/styles";
+import {LinearGradient} from "expo-linear-gradient";
+import {BlurView} from "expo-blur";
+import MaskedView from "@react-native-masked-view/masked-view";
 
 interface SlideItem {
     id: string;
@@ -10,8 +24,8 @@ interface SlideItem {
 }
 const data: SlideItem[] = [
     { id: "1", title: "Les horaires de vos trains, en avance", message:"railclock vous permettra de connaître les horaires de vos trains préférés avec élégance.", image: require("./images/railclock-left.png") },
-    { id: "2", title: "Découvrez", message:"Bonjour", image: require("./images/railclock-left.png") },
-    { id: "3", title: "Commencez", message:"Bonjour", image: require("./images/Resultats_recherche-left.png") },
+    { id: "2", title: "Recherchez l’horaire parfait pour le train parfait", message:"D’un point A à un point B, railclock vous fournira l’horaire parfait.", image: require("./images/Resultats_recherche-left.png") },
+    { id: "3", title: "Observez votre trajet en un clic", message:"Railclock vous montre même la carte pour pouvoir vous y retrouver plus vite !", image: require("./images/Resultats_recherche-right.png") },
 ];
 
 const { width } = Dimensions.get("window");
@@ -29,6 +43,22 @@ const CarouselComponent: React.FC = () => {
 
     return (
         <View>
+            <View style={[styles.blurContainer, { width: '100%', height: '27%' }]}>
+                <MaskedView
+                    maskElement={
+                        <LinearGradient colors={["#AB1E62", "#D44E53", "#FF8242"]}
+                                        locations={[0, 0.5, 1]}
+                                        style={[StyleSheet.absoluteFill]}
+                        />
+                    }
+                    style={[StyleSheet.absoluteFill]}>
+                    <BlurView intensity={1000} tint="dark" style={StyleSheet.absoluteFill}/>
+                    <LinearGradient colors={["#AB1E62", "#D44E53", "#FF8242"]}
+                                    locations={[1, 0.5 , 0]}
+                                    style={[StyleSheet.absoluteFill]}
+                    />
+                </MaskedView>
+            </View>
             {/* SCROLLVIEW HORIZONTAL */}
             <ScrollView
                 ref={scrollViewRef}
@@ -42,12 +72,12 @@ const CarouselComponent: React.FC = () => {
                     <View key={item.id} style={styles.slide}>
                         <Image source={item.image} style={styles.image} />
                         <Text style={styles.title}>{item.title}</Text>
+                        <Text style={styles.message}>{item.message}</Text>
                     </View>
                 ))}
             </ScrollView>
-
             {/* INDICATEURS DE PAGINATION */}
-            <View style={styles.pagination}>
+            <View style={[styles.pagination]}>
                 {data.map((_, index) => (
                     <View
                         key={index}
@@ -58,6 +88,13 @@ const CarouselComponent: React.FC = () => {
                     />
                 ))}
             </View>
+            <View style={[{marginBottom: bottom}, globalStyles.primaryButton]}>
+                <Pressable onPress={() => {
+                    scrollViewRef.current?.scrollTo({x: width * (activeIndex + 1), animated: true});
+                }}>
+                    <Text style={styles.buttonMessage}>Continuer</Text>
+                </Pressable>
+            </View>
         </View>
     );
 };
@@ -65,42 +102,85 @@ const CarouselComponent: React.FC = () => {
 const styles = StyleSheet.create({
     slide: {
         width,
-        alignItems: "center",
         marginTop: 70,
         padding: 20,
     },
     image: {
+        alignSelf: "center",
         width: 250,
         height: 480,
         borderRadius: 10,
     },
     title: {
-        fontSize: 20,
-        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "BricolageGrotesqueBold",
         marginTop: 10,
     },
     message: {
-        fontSize: 20,
-        fontWeight: "bold",
+        fontSize: 25,
+        fontFamily: "BricolageGrotesqueRegular",
         marginTop: 10,
     },
     pagination: {
         flexDirection: "row",
         justifyContent: "center",
+        alignItems: "center",
         marginTop: 10,
+        marginBottom: 20,
     },
     dot: {
-        width: 10,
-        height: 10,
+        width: 6,
+        height: 6,
         borderRadius: 5,
         marginHorizontal: 5,
     },
     activeDot: {
-        backgroundColor: "blue",
+        backgroundColor: "#210010",
+        borderRadius: 10,
+        width: 8,
+        height: 8,
     },
     inactiveDot: {
         backgroundColor: "gray",
     },
+    container: {
+        flex: 1,
+        justifyContent: "flex-end",
+        backgroundColor: "red"
+    },
+    gradient: {
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+        height: "25%",
+        justifyContent: "flex-end",
+    },
+    blur: {
+        width: '100%',
+        height: '100%'
+    },
+    blurContainer: {
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+        height: "25%",
+        justifyContent: "flex-end",
+    },
+    primaryButton: {
+        backgroundColor: "#FF8242",
+        padding: 10,
+        borderRadius: 10,
+        marginHorizontal: 20,
+        marginBottom: 20,
+    },
+    buttonMessage: {
+        color: "white",
+        fontSize: 20,
+        marginVertical: 5,
+        fontFamily: "BricolageGrotesqueRegular",
+        textAlign: "center",
+    }
 });
 
 export default CarouselComponent;
+

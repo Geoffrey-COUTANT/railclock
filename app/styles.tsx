@@ -62,5 +62,13 @@ export const globalStyles = StyleSheet.create({
         marginVertical: 30,
         height: 1,
         width: '80%',
+    },
+    primaryButton: {
+        backgroundColor: "#210010",
+        padding: 10,
+        borderRadius: 10,
+        marginHorizontal: 20,
+        marginBottom: 20,
     }
 });
+
