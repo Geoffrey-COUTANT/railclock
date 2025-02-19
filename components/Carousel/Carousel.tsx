@@ -104,12 +104,14 @@ const styles = StyleSheet.create({
         width,
         marginTop: 70,
         padding: 20,
+        display: "flex",
     },
     image: {
         alignSelf: "center",
         width: 250,
-        height: 480,
+        flex: 1,
         borderRadius: 10,
+        objectFit: "contain",
     },
     title: {
         fontSize: 40,
