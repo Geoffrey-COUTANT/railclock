@@ -44,20 +44,20 @@ const CarouselComponent: React.FC = () => {
     return (
         <View>
             <View style={[styles.blurContainer, { width: '100%', height: '27%' }]}>
-                <MaskedView
-                    maskElement={
-                        <LinearGradient colors={["#AB1E62", "#D44E53", "#FF8242"]}
-                                        locations={[0, 0.5, 1]}
-                                        style={[StyleSheet.absoluteFill]}
-                        />
-                    }
-                    style={[StyleSheet.absoluteFill]}>
-                    <BlurView intensity={1000} tint="dark" style={StyleSheet.absoluteFill}/>
-                    <LinearGradient colors={["#AB1E62", "#D44E53", "#FF8242"]}
-                                    locations={[1, 0.5 , 0]}
-                                    style={[StyleSheet.absoluteFill]}
-                    />
-                </MaskedView>
+                {/*<MaskedView*/}
+                {/*    maskElement={*/}
+                {/*        <LinearGradient colors={["#AB1E62", "#D44E53", "#FF8242"]}*/}
+                {/*                        locations={[0, 0.5, 1]}*/}
+                {/*                        style={[StyleSheet.absoluteFill]}*/}
+                {/*        />*/}
+                {/*    }*/}
+                {/*    style={[StyleSheet.absoluteFill]}>*/}
+                {/*    <BlurView intensity={1000} tint="dark" style={StyleSheet.absoluteFill}/>*/}
+                {/*    <LinearGradient colors={["#AB1E62", "#D44E53", "#FF8242"]}*/}
+                {/*                    locations={[1, 0.5 , 0]}*/}
+                {/*                    style={[StyleSheet.absoluteFill]}*/}
+                {/*    />*/}
+                {/*</MaskedView>*/}Ò
             </View>
             {/* SCROLLVIEW HORIZONTAL */}
             <ScrollView
