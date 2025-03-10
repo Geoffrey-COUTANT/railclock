@@ -8,7 +8,7 @@ import {
     StyleSheet,
     NativeSyntheticEvent,
     NativeScrollEvent,
-    Button, Pressable
+    Button, Pressable, TouchableOpacity
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {useSafeAreaFrame, useSafeAreaInsets} from "react-native-safe-area-context";
@@ -63,7 +63,7 @@ const CarouselComponent: React.FC = () => {
                 onScroll={handleScroll}
                 scrollEventThrottle={16}
             >
-                <View style={{ display: "flex", flexDirection: "row", marginBottom: 150 }}>
+                <View style={{ display: "flex", flexDirection: "row", marginBottom: 120 }}>
                     {/* SCROLLVIEW HORIZONTAL */}
                     {data.map((item) => (
                         <View key={item.id} style={styles.slide}>
@@ -108,7 +108,7 @@ const CarouselComponent: React.FC = () => {
             </View>
 
             {/* BOUTON CTA */}
-            <Pressable onPress={handleButtonCarouselPress} style={styles.ctaContainer}>
+            <Pressable onPress={handleButtonCarouselPress} style={styles.carouselCtaButton}>
                 <Text style={styles.ctaText}>
                     {activeIndex < data.length - 1 ? "Suivant" : "Commencer"}
                 </Text>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         transform: [{ translateX: "-50%" }],
         flexDirection: "row",
         left: "50%",
-        bottom: "12%",
+        bottom: "13%",
         justifyContent: "center",
         alignItems: "center",
         zIndex: 10,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
         height: 8,
     },
     inactiveDot: {
-        backgroundColor: "gray",
+        backgroundColor: "rgba(33,0,16,0.5)",
     },
     gradient: {
         position: "absolute",
@@ -210,9 +210,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 35,
         paddingBottom: 50,
     },
-    ctaContainer: {
+    carouselCtaButton: {
         position: 'absolute',
-        bottom: 20,
+        bottom: 30,
         left: '50%',
         transform: [{ translateX: "-50%" }],
         backgroundColor: 'black',
