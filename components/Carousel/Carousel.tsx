@@ -74,7 +74,7 @@ const CarouselComponent: React.FC = () => {
                     ))}
                 </View>
             </ScrollView>
-            <View style={[styles.blurContainer, { width: '100%', height: '100%' }]}>
+            <View style={[styles.blurContainer, { width: '100%', height: '100%' }]} pointerEvents="none">
                 <MaskedView
                     maskElement={
                         <LinearGradient
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         transform: [{ translateX: "-50%" }],
         flexDirection: "row",
         left: "50%",
-        bottom: 150,
+        bottom: "15%",
         justifyContent: "center",
         alignItems: "center",
         zIndex: 10,
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        height: 300
+        height: "60%",
     },
     blurContainer: {
         position: 'absolute',
