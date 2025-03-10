@@ -63,7 +63,7 @@ const CarouselComponent: React.FC = () => {
                 onScroll={handleScroll}
                 scrollEventThrottle={16}
             >
-                <View style={{ display: "flex", flexDirection: "row" }}>
+                <View style={{ display: "flex", flexDirection: "row", marginBottom: 150 }}>
                     {/* SCROLLVIEW HORIZONTAL */}
                     {data.map((item) => (
                         <View key={item.id} style={styles.slide}>
@@ -126,8 +126,9 @@ const styles = StyleSheet.create({
     image: {
         alignSelf: "center",
         width: 250,
-        height: 480,
+        flex: 1,
         borderRadius: 10,
+        objectFit: "contain"
     },
     title: {
         fontSize: 40,
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
         transform: [{ translateX: "-50%" }],
         flexDirection: "row",
         left: "50%",
-        bottom: "15%",
+        bottom: "12%",
         justifyContent: "center",
         alignItems: "center",
         zIndex: 10,
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
     },
     ctaContainer: {
         position: 'absolute',
-        bottom: 50,
+        bottom: 20,
         left: '50%',
         transform: [{ translateX: "-50%" }],
         backgroundColor: 'black',
