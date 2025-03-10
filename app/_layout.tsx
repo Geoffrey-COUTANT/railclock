@@ -1,30 +1,30 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
   DarkTheme,
-  DefaultTheme, ThemeProvider
+  DefaultTheme,
+  ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
 import "react-native-reanimated";
 import { useColorScheme } from "@/components/useColorScheme";
-import { StatusBar } from "react-native";
-import type {Theme} from "@react-navigation/native/src/types";
-import {fonts} from "@react-navigation/native/src/theming/fonts";
-import * as NavigationBar from 'expo-navigation-bar';
+import { StatusBar, View } from "react-native";
+import type { Theme } from "@react-navigation/native/src/types";
+import { fonts } from "@react-navigation/native/src/theming/fonts";
+import * as NavigationBar from "expo-navigation-bar";
 
 export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+  ErrorBoundary, // Catch any errors thrown by the Layout component.
 } from "expo-router";
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(onboarding)",
+  initialRouteName: "(onboarding)", // Définit l'onboarding comme page d'accueil
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// Empêche l'écran de chargement de se cacher automatiquement
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -35,24 +35,26 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+  const [isReady, setIsReady] = useState(false);
+
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync(); // Masque l'écran de démarrage après le chargement
+      setIsReady(true); // L'application est prête
     }
   }, [loaded]);
 
   useEffect(() => {
-    NavigationBar.setBackgroundColorAsync('#ffffff')
+    NavigationBar.setBackgroundColorAsync("#ffffff");
     NavigationBar.setButtonStyleAsync("dark");
-  });
+  }, []);
 
-  if (!loaded) {
-    return null;
+  if (!isReady) {
+    return null; // Ne montre rien tant que l'application n'est pas prête
   }
 
   return <RootLayoutNav />;
@@ -61,27 +63,43 @@ export default function RootLayout() {
 export const RailclockTheme: Theme = {
   dark: false,
   colors: {
-    primary: '#210010',
-    background: '#fff',
-    card: 'rgb(255, 255, 255)',
-    text: '#210010',
-    border: 'rgb(216, 216, 216)',
-    notification: 'rgb(255, 59, 48)',
+    primary: "#210010",
+    background: "#fff",
+    card: "rgb(255, 255, 255)",
+    text: "#210010",
+    border: "rgb(216, 216, 216)",
+    notification: "rgb(255, 59, 48)",
   },
   fonts,
 };
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const router = useRouter();
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    // Ce code ne s'exécutera qu'après que l'application soit entièrement montée
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (hasMounted) {
+      router.push("/(onboarding)"); // Utilisez la route sans les parenthèses
+    }
+  }, [hasMounted, router]);
 
   return (
     <ThemeProvider value={RailclockTheme}>
-      <Stack>
+      <Stack initialRouteName="(onboarding)">
         <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
         <Stack.Screen name="(home)" options={{ headerShown: false }} />
         <Stack.Screen name="(details)" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar barStyle="dark-content" backgroundColor={"transparent"} translucent={true} />
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent={true}
+      />
     </ThemeProvider>
   );
 }
