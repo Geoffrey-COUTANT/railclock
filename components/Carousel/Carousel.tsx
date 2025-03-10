@@ -29,26 +29,23 @@ const data: SlideItem[] = [
     { id: "3", title: "Observez votre trajet en un clic", message:"Railclock vous montre même la carte pour pouvoir vous y retrouver plus vite !", image: require("./images/Resultats_recherche-right.png") },
 ];
 
-const { bottom } = useSafeAreaInsets();
-const [activeIndex, setActiveIndex] = useState(0);
-const scrollViewRef = useRef<ScrollView>(null);
-const navigation = useNavigation();
-const handleButtonCarouselPress = () => {
-    if (activeIndex < data.length - 1) {
-        // Passe au slide suivant
-        scrollViewRef.current?.scrollTo({ x: (activeIndex + 1) * width, animated: true });
-    } else {
-        // Redirige vers la page d'accueil
-        navigation.navigate("/(home)");
-    }
-};
-
 const { width } = Dimensions.get("window");
 
 const CarouselComponent: React.FC = () => {
     const { bottom } = useSafeAreaInsets();
     const [activeIndex, setActiveIndex] = useState(0);
     const scrollViewRef = useRef<ScrollView>(null);
+    const navigation = useNavigation();
+
+    const handleButtonCarouselPress = () => {
+        if (activeIndex < data.length - 1) {
+            // Passe au slide suivant
+            scrollViewRef.current?.scrollTo({ x: (activeIndex + 1) * width, animated: true });
+        } else {
+            // Redirige vers la page d'accueil
+            navigation.navigate("(home)");
+        }
+    };
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const contentOffsetX = event.nativeEvent.contentOffset.x;
@@ -67,25 +64,6 @@ const CarouselComponent: React.FC = () => {
                 scrollEventThrottle={16}
             >
                 <View style={{ display: "flex", flexDirection: "row" }}>
-                    <View style={[styles.blurContainer, { width: '100%', height: '100%' }]}>
-                        <MaskedView
-                            maskElement={
-                                <LinearGradient
-                                    locations={[0, 0.6, 0.8, 0.9]}
-                                    colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.4)']}
-                                    style={[styles.absoluteBottom]}
-                                />
-                            }
-                            style={[styles.absoluteBottom]}>
-                            <BlurView intensity={1000} tint="light" style={[styles.absoluteBottom]} />
-                            <LinearGradient
-                                start={{x: 0, y: 0.5}}
-                                end={{x: 1, y: 0.5}}
-                                colors={['#AB1E62', '#D44E53', '#FF8242']}
-                                style={[styles.absoluteBottom, { opacity: 0.8 }]}
-                            />
-                        </MaskedView>
-                    </View>
                     {/* SCROLLVIEW HORIZONTAL */}
                     {data.map((item) => (
                         <View key={item.id} style={styles.slide}>
@@ -96,6 +74,25 @@ const CarouselComponent: React.FC = () => {
                     ))}
                 </View>
             </ScrollView>
+            <View style={[styles.blurContainer, { width: '100%', height: '100%' }]}>
+                <MaskedView
+                    maskElement={
+                        <LinearGradient
+                            locations={[0, 0.6, 0.8, 0.9]}
+                            colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.4)']}
+                            style={[styles.absoluteBottom]}
+                        />
+                    }
+                    style={[styles.absoluteBottom]}>
+                    <BlurView intensity={1000} tint="light" style={[styles.absoluteBottom]} />
+                    <LinearGradient
+                        start={{x: 0, y: 0.5}}
+                        end={{x: 1, y: 0.5}}
+                        colors={['#AB1E62', '#D44E53', '#FF8242']}
+                        style={[styles.absoluteBottom, { opacity: 0.8 }]}
+                    />
+                </MaskedView>
+            </View>
 
             {/* INDICATEURS DE PAGINATION */}
             <View style={[styles.pagination]}>
@@ -110,7 +107,6 @@ const CarouselComponent: React.FC = () => {
                 ))}
             </View>
 
-            {/* BOUTON CTA */}
             {/* BOUTON CTA */}
             <Pressable onPress={handleButtonCarouselPress} style={styles.ctaContainer}>
                 <Text style={styles.ctaText}>
@@ -145,13 +141,13 @@ const styles = StyleSheet.create({
     },
     pagination: {
         position: 'absolute',
-        bottom: 20, // Ajuste cette valeur selon besoin
-        left: '50%',
-        transform: [{ translateX: -50 }],
+        transform: [{ translateX: "-50%" }],
         flexDirection: "row",
+        left: "50%",
+        bottom: 150,
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 10,  // Met au-dessus du gradient et des images
+        zIndex: 10,
     },
     dot: {
         width: 6,
@@ -204,7 +200,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        height: 250
+        height: 300
     },
     blurContainer: {
         position: 'absolute',
@@ -215,16 +211,16 @@ const styles = StyleSheet.create({
     },
     ctaContainer: {
         position: 'absolute',
-        bottom: 40,  // Ajuste cette valeur selon le besoin
+        bottom: 50,
         left: '50%',
-        transform: [{ translateX: -50 }],
+        transform: [{ translateX: "-50%" }],
         backgroundColor: 'black',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
         height: 62,
-        width: 200, // Ajuste selon besoin
-        zIndex: 10,  // Assure qu'il est au-dessus des autres éléments
+        width: 370,
+        zIndex: 10,
     },
     ctaText: {
         fontSize: 20,
