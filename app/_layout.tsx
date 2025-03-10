@@ -15,6 +15,7 @@ import { StatusBar, View } from "react-native";
 import type { Theme } from "@react-navigation/native/src/types";
 import { fonts } from "@react-navigation/native/src/theming/fonts";
 import * as NavigationBar from "expo-navigation-bar";
+import {useAsyncStorage} from "@react-native-async-storage/async-storage";
 
 export {
   ErrorBoundary, // Catch any errors thrown by the Layout component.
