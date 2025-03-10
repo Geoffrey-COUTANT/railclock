@@ -25,7 +25,7 @@ interface SlideItem {
 const data: SlideItem[] = [
     { id: "1", title: "Les horaires de vos trains, en avance", message:"railclock vous permettra de connaître les horaires de vos trains préférés avec élégance.", image: require("./images/railclock-left.png") },
     { id: "2", title: "Recherchez l’horaire parfait pour le train parfait", message:"D’un point A à un point B, railclock vous fournira l’horaire parfait.", image: require("./images/Resultats_recherche-left.png") },
-    { id: "3", title: "Observez votre trajet en un clic", message:"Railclock vous montre même la carte pour pouvoir vous y retrouver plus vite !", image: require("./images/Resultats_recherche-left.png") },
+    { id: "3", title: "Observez votre trajet en un clic", message:"Railclock vous montre même la carte pour pouvoir vous y retrouver plus vite !", image: require("./images/Resultats_recherche-right.png") },
 ];
 
 const { width } = Dimensions.get("window");
@@ -43,6 +43,22 @@ const CarouselComponent: React.FC = () => {
 
     return (
         <View>
+            <View style={[styles.blurContainer, { width: '100%', height: '27%' }]}>
+                <MaskedView
+                    maskElement={
+                        <LinearGradient colors={["#AB1E62", "#D44E53", "#FF8242"]}
+                                        locations={[0, 0.5, 1]}
+                                        style={[StyleSheet.absoluteFill]}
+                        />
+                    }
+                    style={[StyleSheet.absoluteFill]}>
+                    <BlurView intensity={1000} tint="dark" style={StyleSheet.absoluteFill}/>
+                    <LinearGradient colors={["#AB1E62", "#D44E53", "#FF8242"]}
+                                    locations={[1, 0.5 , 0]}
+                                    style={[StyleSheet.absoluteFill]}
+                    />
+                </MaskedView>
+            </View>
             {/* SCROLLVIEW HORIZONTAL */}
             <ScrollView
                 ref={scrollViewRef}
@@ -72,28 +88,11 @@ const CarouselComponent: React.FC = () => {
                     />
                 ))}
             </View>
-            <View style={[styles.blurContainer, { width: '100%', height: '100%' }]}>
-                <MaskedView
-                    maskElement={
-                        <LinearGradient
-                            locations={[0, 0.6, 0.8, 0.9]}
-                            colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.5)']}
-                            style={[styles.absoluteBottom]}
-                        />
-                    }
-                    style={[styles.absoluteBottom]}>
-                    <BlurView intensity={1000} tint="light" style={[styles.absoluteBottom]} />
-                    <LinearGradient
-                        start={{x: 0, y: 0.5}}
-                        end={{x: 1, y: 0.5}}
-                        colors={['#AB1E62', '#D44E53', '#FF8242']}
-                        style={[styles.absoluteBottom, { opacity: 0.8 }]}
-                    />
-                </MaskedView>
-                <Pressable onPress={(() => null)} style={styles.ctaContainer}>
-                    <Text style={styles.ctaText}>
-                        {"Commencer"}
-                    </Text>
+            <View style={[{marginBottom: bottom}, globalStyles.primaryButton]}>
+                <Pressable onPress={() => {
+                    scrollViewRef.current?.scrollTo({x: width * (activeIndex + 1), animated: true});
+                }}>
+                    <Text style={styles.buttonMessage}>Continuer</Text>
                 </Pressable>
             </View>
         </View>
@@ -144,13 +143,28 @@ const styles = StyleSheet.create({
     inactiveDot: {
         backgroundColor: "gray",
     },
+    container: {
+        flex: 1,
+        justifyContent: "flex-end",
+        backgroundColor: "red"
+    },
     gradient: {
-        opacity: 0.4,
-
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+        height: "25%",
+        justifyContent: "flex-end",
     },
     blur: {
         width: '100%',
         height: '100%'
+    },
+    blurContainer: {
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+        height: "25%",
+        justifyContent: "flex-end",
     },
     primaryButton: {
         backgroundColor: "#FF8242",
@@ -165,37 +179,6 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         fontFamily: "BricolageGrotesqueRegular",
         textAlign: "center",
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#ecf0f1',
-        padding: 8,
-    },
-    absoluteBottom: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 320
-    },
-    blurContainer: {
-        position: 'absolute',
-        bottom: 0,
-        justifyContent: 'flex-end',
-        paddingHorizontal: 35,
-        paddingBottom: 50,
-    },
-    ctaContainer: {
-        backgroundColor: 'black',
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 62,
-    },
-    ctaText: {
-        fontSize: 20,
-        color: 'white'
     }
 });
 
