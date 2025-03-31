@@ -12,114 +12,8 @@ import {Ionicons} from '@expo/vector-icons';
 import {getJourneys, getPtObject, searchForPtObject} from "@/app/api/api";
 import { formatTimestamp } from "../api/utils";
 
-const trains = [
-    // Bordeaux -> Paris
-    {status: "onTime", scheduledTime: "06:00", depart: "Bordeaux-St-Jean", arrival: "Paris-Montparnasse"},
-    {
-        status: "delayed",
-        scheduledTime: "07:45",
-        actualTime: "08:30",
-        delayDuration: "45 min",
-        depart: "Bordeaux-St-Jean",
-        arrival: "Paris-Montparnasse"
-    },
-    {status: "onTime", scheduledTime: "09:30", depart: "Bordeaux-St-Jean", arrival: "Paris-Montparnasse"},
-    {status: "cancelled", scheduledTime: "11:15", depart: "Bordeaux-St-Jean", arrival: "Paris-Montparnasse"},
-    {status: "onTime", scheduledTime: "13:00", depart: "Bordeaux-St-Jean", arrival: "Paris-Montparnasse"},
-    {
-        status: "delayed",
-        scheduledTime: "15:45",
-        actualTime: "16:30",
-        delayDuration: "45 min",
-        depart: "Bordeaux-St-Jean",
-        arrival: "Paris-Montparnasse"
-    },
-    {status: "onTime", scheduledTime: "18:20", depart: "Bordeaux-St-Jean", arrival: "Paris-Montparnasse"},
-    {status: "onTime", scheduledTime: "20:45", depart: "Bordeaux-St-Jean", arrival: "Paris-Montparnasse"},
+const trains: any[] | (() => any[]) = [
 
-    // Paris -> Bordeaux
-    {status: "onTime", scheduledTime: "06:30", depart: "Paris-Montparnasse", arrival: "Bordeaux-St-Jean"},
-    {status: "onTime", scheduledTime: "08:15", depart: "Paris-Montparnasse", arrival: "Bordeaux-St-Jean"},
-    {
-        status: "delayed",
-        scheduledTime: "10:00",
-        actualTime: "10:45",
-        delayDuration: "45 min",
-        depart: "Paris-Montparnasse",
-        arrival: "Bordeaux-St-Jean"
-    },
-    {status: "onTime", scheduledTime: "12:30", depart: "Paris-Montparnasse", arrival: "Bordeaux-St-Jean"},
-    {status: "cancelled", scheduledTime: "14:00", depart: "Paris-Montparnasse", arrival: "Bordeaux-St-Jean"},
-    {status: "onTime", scheduledTime: "16:15", depart: "Paris-Montparnasse", arrival: "Bordeaux-St-Jean"},
-    {status: "onTime", scheduledTime: "19:00", depart: "Paris-Montparnasse", arrival: "Bordeaux-St-Jean"},
-    {
-        status: "delayed",
-        scheduledTime: "21:45",
-        actualTime: "22:30",
-        delayDuration: "45 min",
-        depart: "Paris-Montparnasse",
-        arrival: "Bordeaux-St-Jean"
-    },
-
-    // 🛤️ Montendre -> Bordeaux
-    {status: "onTime", scheduledTime: "06:15", depart: "Montendre", arrival: "Bordeaux-St-Jean"},
-    {status: "onTime", scheduledTime: "08:45", depart: "Montendre", arrival: "Bordeaux-St-Jean"},
-    {
-        status: "delayed",
-        scheduledTime: "11:30",
-        actualTime: "12:00",
-        delayDuration: "30 min",
-        depart: "Montendre",
-        arrival: "Bordeaux-St-Jean"
-    },
-    {status: "onTime", scheduledTime: "14:15", depart: "Montendre", arrival: "Bordeaux-St-Jean"},
-    {status: "onTime", scheduledTime: "17:45", depart: "Montendre", arrival: "Bordeaux-St-Jean"},
-    {status: "cancelled", scheduledTime: "20:30", depart: "Montendre", arrival: "Bordeaux-St-Jean"},
-
-    // 🛤️ Bordeaux -> Montendre
-    {status: "onTime", scheduledTime: "07:00", depart: "Bordeaux-St-Jean", arrival: "Montendre"},
-    {status: "onTime", scheduledTime: "09:30", depart: "Bordeaux-St-Jean", arrival: "Montendre"},
-    {status: "onTime", scheduledTime: "12:15", depart: "Bordeaux-St-Jean", arrival: "Montendre"},
-    {
-        status: "delayed",
-        scheduledTime: "15:45",
-        actualTime: "16:15",
-        delayDuration: "30 min",
-        depart: "Bordeaux-St-Jean",
-        arrival: "Montendre"
-    },
-    {status: "onTime", scheduledTime: "18:00", depart: "Bordeaux-St-Jean", arrival: "Montendre"},
-    {status: "cancelled", scheduledTime: "21:30", depart: "Bordeaux-St-Jean", arrival: "Montendre"},
-
-    // 🛤️ Ychoux -> Bordeaux
-    {status: "onTime", scheduledTime: "06:45", depart: "Ychoux", arrival: "Bordeaux-St-Jean"},
-    {
-        status: "delayed",
-        scheduledTime: "09:00",
-        actualTime: "09:30",
-        delayDuration: "30 min",
-        depart: "Ychoux",
-        arrival: "Bordeaux-St-Jean"
-    },
-    {status: "onTime", scheduledTime: "11:15", depart: "Ychoux", arrival: "Bordeaux-St-Jean"},
-    {status: "onTime", scheduledTime: "14:45", depart: "Ychoux", arrival: "Bordeaux-St-Jean"},
-    {status: "onTime", scheduledTime: "17:00", depart: "Ychoux", arrival: "Bordeaux-St-Jean"},
-    {status: "cancelled", scheduledTime: "19:30", depart: "Ychoux", arrival: "Bordeaux-St-Jean"},
-
-    // 🛤️ Bordeaux -> Ychoux
-    {status: "onTime", scheduledTime: "07:30", depart: "Bordeaux-St-Jean", arrival: "Ychoux"},
-    {status: "onTime", scheduledTime: "10:00", depart: "Bordeaux-St-Jean", arrival: "Ychoux"},
-    {
-        status: "delayed",
-        scheduledTime: "13:15",
-        actualTime: "13:45",
-        delayDuration: "30 min",
-        depart: "Bordeaux-St-Jean",
-        arrival: "Ychoux"
-    },
-    {status: "onTime", scheduledTime: "16:00", depart: "Bordeaux-St-Jean", arrival: "Ychoux"},
-    {status: "onTime", scheduledTime: "18:30", depart: "Bordeaux-St-Jean", arrival: "Ychoux"},
-    {status: "cancelled", scheduledTime: "21:00", depart: "Bordeaux-St-Jean", arrival: "Ychoux"},
 ];
 const { height, width } = Dimensions.get("window");
 
@@ -142,14 +36,6 @@ export default function TabOneScreen() {
         let arrivalPtObject = await getPtObject(arrivalCity);
 
         let journey = await getJourneys(departPtObject!.id, arrivalPtObject!.id);
-
-        /*
-        const results = trains.filter(
-            (train) =>
-                train.depart.toLowerCase().includes(departCity.toLowerCase()) &&
-                train.arrival.toLowerCase().includes(arrivalCity.toLowerCase())
-        );
-        */
 
         try {
             let results = [];
@@ -240,8 +126,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
     color: "#210010",
+    fontFamily: "BricolageGrotesqueSemiBold",
   },
   input: {
     height: 50,

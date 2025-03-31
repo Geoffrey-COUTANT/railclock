@@ -92,9 +92,9 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={RailclockTheme}>
       <Stack initialRouteName="(onboarding)">
-        <Stack.Screen name="(onboarding)" options={{ headerShown: false }} />
-        <Stack.Screen name="(home)" options={{ headerShown: false }} />
-        <Stack.Screen name="(details)" options={{ headerShown: false }} />
+        <Stack.Screen key={1} name="(onboarding)" options={{ headerShown: false }} />
+        <Stack.Screen key={2} name="(home)" options={{ headerShown: false }} />
+        <Stack.Screen key={3} name="(details)" options={{ headerShown: false }} />
       </Stack>
       <StatusBar
         barStyle="dark-content"

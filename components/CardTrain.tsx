@@ -107,23 +107,23 @@ export default function CardTrain({
 const styles = StyleSheet.create({
   container: {
     flex: undefined,
-    minHeight: 100,
     alignSelf: "stretch",
-    marginVertical: 5,
+    marginVertical: 2,
     width: "100%",
-    borderRadius: 12,
-    padding: 20,
+    borderRadius: 10,
+    padding: 15,
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: "#f5f5f5",
   },
   trainName: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontFamily: "BricolageGrotesqueSemiBold",
   },
   trainTime: {
-    fontSize: 25,
-    fontWeight: "bold",
+    fontSize: 30,
+    lineHeight: 30,
+    fontFamily: "BricolageGrotesqueSemiBold"
   },
   trainContainer: {
     flexDirection: "column",
@@ -136,9 +136,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   destination: {
-    fontSize: 18,
+    fontSize: 20,
+    fontFamily: "BricolageGrotesqueSemiBold",
   },
   timeContainer: {
+    display: "flex",
+    justifyContent: "center",
     flexDirection: "column",
     fontSize: 18,
     alignItems: "flex-end",
@@ -180,4 +183,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
     flexWrap: "nowrap",
   },
+  stopNameText: {
+    fontSize: 20,
+    fontFamily: "BricolageGrotesqueSemiBold",
+  }
 });
