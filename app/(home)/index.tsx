@@ -3,7 +3,7 @@ import {
   TextInput,
   Pressable,
   ScrollView,
-  View,
+  View, Dimensions,
 } from "react-native";
 import React from "react";
 import { Text } from "@/components/Themed";
@@ -63,6 +63,7 @@ const trains = [
   { status: "onTime", scheduledTime: "18:30", depart: "Bordeaux-St-Jean", arrival: "Ychoux" },
   { status: "cancelled", scheduledTime: "21:00", depart: "Bordeaux-St-Jean", arrival: "Ychoux" },
 ];
+const { height, width } = Dimensions.get("window");
 
 export default function TabOneScreen() {
   const [departCity, setDepartCity] = React.useState("");
@@ -72,7 +73,6 @@ export default function TabOneScreen() {
     setDepartCity(arrivalCity);
     setArrivalCity(departCity);
   };
-
   const handleSearch = () => {
     const results = trains.filter(
         (train) =>
@@ -153,9 +153,8 @@ const styles = StyleSheet.create({
   swapButton: {
     position: "absolute",
     padding: 10,
-    top: "17%",
-    right: "0%",
-    marginHorizontal: 10,
+    top: height * 0.145, // 17% de la hauteur de l'écran
+    right: width * 0.03, // 5% du bord droit pour s'adapter à tous les écrans
     backgroundColor: "white",
     borderRadius: 30,
     justifyContent: "center",
