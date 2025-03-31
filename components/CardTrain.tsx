@@ -7,12 +7,16 @@ export default function CardTrain({
   actualTime,
   delayDuration,
   additionalInfo,
+    depart,
+    arrival
 }: {
   status?: string;
   scheduledTime: string;
   actualTime?: string;
   delayDuration?: string;
   additionalInfo?: string;
+  depart?: string;
+  arrival?: string;
 }) {
   const getBackgroundColor = () => {
     switch (status) {
@@ -34,7 +38,7 @@ export default function CardTrain({
             status !== "onTime" ? styles.whiteText : styles.blackText,
           ]}
         >
-          Ychoux
+            {depart}
         </Text>
         <View style={styles.destinationContainer}>
           <Svg
@@ -57,7 +61,7 @@ export default function CardTrain({
               status !== "onTime" ? styles.whiteText : styles.blackText,
             ]}
           >
-            Bordeaux-St-Jean
+              {arrival}
           </Text>
         </View>
       </View>
