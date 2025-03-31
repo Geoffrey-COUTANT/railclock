@@ -1,10 +1,9 @@
 import {
-    StyleSheet,
-    TextInput,
-    Pressable,
-    ScrollView,
-    View,
-    FlatList,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  ScrollView,
+  View, Dimensions, FlatList
 } from "react-native";
 import React from "react";
 import {Text} from "@/components/Themed";
@@ -122,6 +121,7 @@ const trains = [
     {status: "onTime", scheduledTime: "18:30", depart: "Bordeaux-St-Jean", arrival: "Ychoux"},
     {status: "cancelled", scheduledTime: "21:00", depart: "Bordeaux-St-Jean", arrival: "Ychoux"},
 ];
+const { height, width } = Dimensions.get("window");
 
 export default function TabOneScreen() {
     const [departCity, setDepartCity] = React.useState("");
@@ -228,78 +228,77 @@ export default function TabOneScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        paddingTop: 40,
-        backgroundColor: "#fff",
-        width: "100%",
-    },
-    logoContainer: {
-        marginBottom: 40,
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "#210010",
-    },
-    input: {
-        height: 50,
-        borderWidth: 0,
-        padding: 15,
-        width: "90%",
-        borderRadius: 12,
-        backgroundColor: "#f5f5f5",
-        marginBottom: 10,
-        fontSize: 16,
-    },
-    swapButton: {
-        position: "absolute",
-        padding: 10,
-        top: "17%",
-        right: "0%",
-        marginHorizontal: 10,
-        backgroundColor: "white",
-        borderRadius: 30,
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 10,
-    },
-    button: {
-        marginTop: 5,
-        width: "90%",
-        backgroundColor: "#210010",
-        borderRadius: 12,
-        padding: 15,
-        alignItems: "center",
-    },
-    buttonText: {
-        color: "white",
-        fontWeight: "600",
-        fontSize: 16,
-    },
-    sectionTitle: {
-        alignSelf: "flex-start",
-        paddingLeft: "5%",
-        fontSize: 24,
-        fontWeight: "bold",
-        marginTop: 40,
-        marginBottom: 20,
-    },
-    scrollView: {
-        flex: 1,
-        width: "100%",
-    },
-    contentContainer: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        gap: 10,
-        width: "100%",
-    },
-    noTrainText: {
-        fontSize: 16,
-        textAlign: "center",
-        color: "#AB1E62",
-        marginTop: 20,
-    },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 40,
+    backgroundColor: "#fff",
+    width: "100%",
+  },
+  logoContainer: {
+    marginBottom: 40,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#210010",
+  },
+  input: {
+    height: 50,
+    borderWidth: 0,
+    padding: 15,
+    width: "90%",
+    borderRadius: 12,
+    backgroundColor: "#f5f5f5",
+    marginBottom: 10,
+    fontSize: 16,
+  },
+  swapButton: {
+    position: "absolute",
+    padding: 10,
+    top: height * 0.145, // 17% de la hauteur de l'écran
+    right: width * 0.03, // 5% du bord droit pour s'adapter à tous les écrans
+    backgroundColor: "white",
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+  },
+  button: {
+    marginTop: 5,
+    width: "90%",
+    backgroundColor: "#210010",
+    borderRadius: 12,
+    padding: 15,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "600",
+    fontSize: 16,
+  },
+  sectionTitle: {
+    alignSelf: "flex-start",
+    paddingLeft: "5%",
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 40,
+    marginBottom: 20,
+  },
+  scrollView: {
+    flex: 1,
+    width: "100%",
+  },
+  contentContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    gap: 10,
+    width: "100%",
+  },
+  noTrainText: {
+    fontSize: 16,
+    textAlign: "center",
+    color: "#AB1E62",
+    marginTop: 20,
+  }
 });
