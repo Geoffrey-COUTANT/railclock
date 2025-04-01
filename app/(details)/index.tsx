@@ -5,7 +5,7 @@ import {globalStyles} from "@/app/styles"
 import {BackButton} from "@/components/BackButton";
 import {TrainStopCard, TrainStopCardStyle} from "@/components/TrainStopCard";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import MapView, {Polyline} from "react-native-maps";
+import MapView, {LatLng, Polyline} from "react-native-maps";
 import {VehicleJourney} from "@/app/api/types";
 import {formatTime, formatTimestamp, getCurrentJourney, getLinkId} from "@/app/api/utils";
 import React, {useEffect, useState} from "react";
@@ -15,8 +15,8 @@ export default function DetailsScreen() {
     const {top} = useSafeAreaInsets();
     const journey = getCurrentJourney();
     const [vehicleJourney, setVehicleJourney] = useState<VehicleJourney>();
-    const midLatitude = (44.825873 + 44.210613) / 2; // Moyenne des latitudes
-    const midLongitude = (-0.556697 + -0.920974) / 2; // Moyenne des longitudes
+    const [region, setRegion] = useState({latitude: 0, longitude: 0, latitudeDelta: 0, longitudeDelta: 0});
+    const [itineraryCoords, setItineraryCoords] = useState<LatLng[]>();
 
     useEffect(() => {
         async function fetchThings() {
@@ -24,6 +24,24 @@ export default function DetailsScreen() {
 
             let vehicleJourney = await getVehicleJourney(getLinkId(journey.section, "vehicle_journey")!)!;
             setVehicleJourney(vehicleJourney);
+
+            let coords : LatLng[] = [];
+
+            for (let i = 0; i < vehicleJourney!.stop_times.length; i++) {
+                let stop_time = vehicleJourney!.stop_times[i];
+                coords.push({latitude: parseFloat(stop_time.stop_point.coord.lat), longitude: parseFloat(stop_time.stop_point.coord.lon)});
+            }
+
+            let midLat = (coords[coords.length - 1].latitude + coords[0].latitude) / 2;
+            let midLon = (coords[coords.length - 1].longitude + coords[0].longitude) / 2;
+
+            setItineraryCoords(coords);
+            setRegion({
+                latitude: midLat,
+                longitude: midLon,
+                latitudeDelta: 1,
+                longitudeDelta: 1
+            })
         }
 
         fetchThings()
@@ -37,22 +55,13 @@ export default function DetailsScreen() {
                 <View>
                     <MapView
                         style={[globalStyles.headerImage, {pointerEvents: "none"}]}
-                        initialRegion={{
-                            latitude: midLatitude, // Centrage sur le point médian
-                            longitude: midLongitude,
-                            latitudeDelta: 0.6922,
-                            longitudeDelta: 0.6421,
-                        }}
+                        region={region}
                     >
-                        <Polyline
-                            coordinates={[
-                                { latitude: 44.825873, longitude: -0.556697 },
-                                { latitude: 44.210613, longitude: -0.920974 },
-                            ]}
-                            strokeColor="#000"
-                            strokeColors={['#7F0000']}
-                            strokeWidth={2}
-                        />
+                        {itineraryCoords ? <Polyline
+                            coordinates={itineraryCoords}
+                            strokeColor="#460022"
+                            strokeWidth={4}
+                        /> : <></>}
                     </MapView>
                     <BackButton offset={top}/>
                 </View>

@@ -78,6 +78,6 @@ export type StopArea = {
 }
 
 export type GPSCoordinates = {
-    lat: number,
-    lon: number
+    lat: string,
+    lon: string
 }
