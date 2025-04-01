@@ -25,11 +25,14 @@ export default function DetailsScreen() {
             let vehicleJourney = await getVehicleJourney(getLinkId(journey.section, "vehicle_journey")!)!;
             setVehicleJourney(vehicleJourney);
 
-            let coords : LatLng[] = [];
+            let coords: LatLng[] = [];
 
             for (let i = 0; i < vehicleJourney!.stop_times.length; i++) {
                 let stop_time = vehicleJourney!.stop_times[i];
-                coords.push({latitude: parseFloat(stop_time.stop_point.coord.lat), longitude: parseFloat(stop_time.stop_point.coord.lon)});
+                coords.push({
+                    latitude: parseFloat(stop_time.stop_point.coord.lat),
+                    longitude: parseFloat(stop_time.stop_point.coord.lon)
+                });
             }
 
             let midLat = (coords[coords.length - 1].latitude + coords[0].latitude) / 2;

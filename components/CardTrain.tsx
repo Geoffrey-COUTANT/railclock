@@ -44,6 +44,7 @@ export default ({
 
     const handleTrainCardPress = () => {
         setCurrentJourney(journey, section!, depart!, arrival!);
+        // @ts-ignore
         navigation.navigate("(details)");
     }
 
@@ -113,7 +114,6 @@ export default ({
 
 const styles = StyleSheet.create({
     container: {
-        flex: undefined,
         alignSelf: "stretch",
         marginVertical: 2,
         width: "100%",
@@ -130,11 +130,12 @@ const styles = StyleSheet.create({
     trainTime: {
         fontSize: 30,
         lineHeight: 30,
-        fontFamily: "BricolageGrotesqueSemiBold"
+        fontFamily: "BricolageGrotesqueSemiBold",
     },
     trainContainer: {
         flexDirection: "column",
         fontSize: 18,
+        flexShrink: 1,
     },
     destinationContainer: {
         flexDirection: "row",
@@ -153,7 +154,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         alignItems: "flex-end",
         flex: 1,
-        marginLeft: 10,
+        flexShrink: 0,
+        minWidth: 100
     },
     delayedTimeContainer: {
         flexDirection: "row",

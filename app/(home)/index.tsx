@@ -115,6 +115,7 @@ export default function TabOneScreen() {
             {isSearching ? (<ActivityIndicator size={"large"}/>) :
                 (
                     <FlatList
+                        style={[{width: "100%"}]}
                         contentContainerStyle={globalStyles.contentContainer}
                         data={filteredTrains}
                         renderItem={({item}) => (
