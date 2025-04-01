@@ -83,15 +83,15 @@ export default function DetailsScreen() {
                         style={globalStyles.textBody}>Train {journey.section.display_informations.commercial_mode} {journey.section.display_informations.label}</Text>
                     <Text style={globalStyles.textBody}>n° {journey.section.display_informations.trip_short_name}</Text>
                 </View>
-                {vehicleJourney === undefined ? (
-                    <ActivityIndicator size={"large"}/>) : <FlatList
-                    contentContainerStyle={globalStyles.contentContainer}
-                    data={vehicleJourney?.stop_times} renderItem={(item) => {
-                    return <TrainStopCard
-                        style={item.item.stop_point.name === journey?.arrival ? TrainStopCardStyle.Target : TrainStopCardStyle.Default}
-                        stopName={item.item.stop_point.name} stopHour={formatTime(item.item.departure_time)}/>
-                }} keyExtractor={(item, index) => index.toString()}/>}
             </View>
+            {vehicleJourney === undefined ? (
+                <ActivityIndicator size={"large"}/>) : <FlatList
+                contentContainerStyle={globalStyles.contentContainer}
+                data={vehicleJourney?.stop_times} renderItem={(item) => {
+                return <TrainStopCard
+                    style={item.item.stop_point.name === journey?.arrival ? TrainStopCardStyle.Target : TrainStopCardStyle.Default}
+                    stopName={item.item.stop_point.name} stopHour={formatTime(item.item.departure_time)}/>
+            }} keyExtractor={(item, index) => index.toString()}/>}
         </View>
     );
 }

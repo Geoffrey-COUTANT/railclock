@@ -86,7 +86,7 @@ export default function TabOneScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.logoContainer}>
-                <Text style={[styles.title, { marginTop: top }]}>railclock</Text>
+                <Text style={[styles.title, {marginTop: top}]}>railclock</Text>
             </View>
             <View style={styles.searchBarContainer}>
                 <TextInput
@@ -112,14 +112,18 @@ export default function TabOneScreen() {
             </Pressable>
             {filteredTrains.length !== 0 && (<Text style={styles.sectionTitle}>Résultats de la recherche</Text>)}
             {filteredTrains.length === 0 && (<Text>Aucun train trouvé. Faites une recherche !</Text>)}
-            {isSearching ? (<ActivityIndicator size={"large"}/>) : (<FlatList
-                contentContainerStyle={globalStyles.contentContainer}
-                data={filteredTrains}
-                renderItem={({item}) => (
-                    <CardTrain journey={item.journey} section={item.section} {...item} />
-                )}
-                keyExtractor={(item, index) => index.toString()}
-            />)}
+            {isSearching ? (<ActivityIndicator size={"large"}/>) :
+                (
+                    <FlatList
+                        contentContainerStyle={globalStyles.contentContainer}
+                        data={filteredTrains}
+                        renderItem={({item}) => (
+                            <CardTrain journey={item.journey} section={item.section} {...item} />
+                        )}
+                        keyExtractor={(item, index) => index.toString()}
+                    />
+                )
+            }
         </View>
     );
 }
