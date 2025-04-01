@@ -5,7 +5,7 @@ import {globalStyles} from "@/app/styles"
 import {BackButton} from "@/components/BackButton";
 import {TrainStopCard, TrainStopCardStyle} from "@/components/TrainStopCard";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import MapView, {LatLng, Polyline} from "react-native-maps";
+import MapView, {LatLng, Marker, Polyline} from "react-native-maps";
 import {VehicleJourney} from "@/app/api/types";
 import {formatTime, formatTimestamp, getCurrentJourney, getLinkId} from "@/app/api/utils";
 import React, {useEffect, useState} from "react";
@@ -60,11 +60,16 @@ export default function DetailsScreen() {
                         style={[globalStyles.headerImage, {pointerEvents: "none"}]}
                         region={region}
                     >
-                        {itineraryCoords ? <Polyline
-                            coordinates={itineraryCoords}
-                            strokeColor="#460022"
-                            strokeWidth={4}
-                        /> : <></>}
+                        {itineraryCoords ? (
+                            <>
+                                <Polyline
+                                    coordinates={itineraryCoords}
+                                    strokeColor="#460022"
+                                    strokeWidth={4}
+                                />
+                                <Marker coordinate={itineraryCoords[itineraryCoords.length - 1]} pinColor={"#00FFFF"} title={journey.arrival} titleVisibility={"visible"}/>
+                            </>
+                        ) : <></>}
                     </MapView>
                     <BackButton offset={top}/>
                 </View>
