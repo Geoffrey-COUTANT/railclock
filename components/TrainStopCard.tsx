@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
     stopCard: {
         borderRadius: 10,
         padding: 15,
-        marginTop: 10,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        gap: 10
     },
     stopNormal: {
         backgroundColor: "#E8E8E8",
@@ -61,5 +61,6 @@ const styles = StyleSheet.create({
     stopNameText: {
         fontSize: 20,
         fontFamily: "BricolageGrotesqueSemiBold",
+        flexShrink: 1
     }
 })

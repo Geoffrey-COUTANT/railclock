@@ -43,6 +43,7 @@ const CarouselComponent: React.FC = () => {
             scrollViewRef.current?.scrollTo({ x: (activeIndex + 1) * width, animated: true });
         } else {
             // Redirige vers la page d'accueil
+            // @ts-ignore
             navigation.navigate("(home)");
         }
     };

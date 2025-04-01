@@ -70,7 +70,7 @@ export default function DetailsScreen() {
                 </View>
                 <View style={globalStyles.paddedBox}>
                     <View style={globalStyles.horizontalList}>
-                        <View style={globalStyles.list}>
+                        <View style={[globalStyles.list, globalStyles.shrinkable]}>
                             <Text style={globalStyles.title}>{journey.depart}</Text>
                             <View style={globalStyles.horizontalList}>
                                 <CornerDownRight style={globalStyles.iconDim}/>
@@ -97,13 +97,18 @@ export default function DetailsScreen() {
                 </View>
             </View>
             {vehicleJourney === undefined ? (
-                <ActivityIndicator size={"large"}/>) : <FlatList
-                contentContainerStyle={globalStyles.contentContainer}
-                data={vehicleJourney?.stop_times} renderItem={(item) => {
-                return <TrainStopCard
-                    style={item.item.stop_point.name === journey?.arrival ? TrainStopCardStyle.Target : TrainStopCardStyle.Default}
-                    stopName={item.item.stop_point.name} stopHour={formatTime(item.item.departure_time)}/>
-            }} keyExtractor={(item, index) => index.toString()}/>}
+                <ActivityIndicator size={"large"}/>
+            ) : (
+                <FlatList
+                    contentContainerStyle={globalStyles.contentContainer}
+                    data={vehicleJourney?.stop_times} renderItem={(item) => {
+                        return <TrainStopCard
+                            style={item.item.stop_point.name === journey?.arrival ? TrainStopCardStyle.Target : TrainStopCardStyle.Default}
+                            stopName={item.item.stop_point.name} stopHour={formatTime(item.item.departure_time)}/>
+                }}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+            )}
         </View>
     );
 }

@@ -15,6 +15,9 @@ export const globalStyles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
   },
+  shrinkable: {
+    flexShrink: 1
+  },
   listGap: {
     gap: 10,
   },
@@ -37,6 +40,7 @@ export const globalStyles = StyleSheet.create({
   },
   icon: {
     color: "black",
+    opacity: 1
   },
   paddedBox: {
     padding: 20,
