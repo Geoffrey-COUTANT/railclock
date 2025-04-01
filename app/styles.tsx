@@ -13,6 +13,7 @@ export const globalStyles = StyleSheet.create({
   },
   list: {
     display: "flex",
+    flexDirection: "column",
   },
   listGap: {
     gap: 10,
@@ -69,6 +70,12 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 20,
     marginBottom: 20,
+  },
+  contentContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    gap: 10,
+    width: "100%",
   },
 });
 

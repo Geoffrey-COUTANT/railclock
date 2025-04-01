@@ -1,17 +1,25 @@
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, Pressable} from "react-native";
 import Svg, {Path} from "react-native-svg";
-import SkeletonContent from 'react-native-skeleton-content';
+import {CornerDownRight, Navigation} from "lucide-react-native";
+import {useNavigation} from "expo-router";
+import {Journey, JourneySection} from "@/app/api/types";
+import {setCurrentJourney} from "@/app/api/utils";
+import globalStyles from "@/app/styles";
 
-export default function CardTrain({
-                                      status = "onTime", // 'onTime', 'delayed', 'cancelled'
-                                      scheduledTime,
-                                      actualTime,
-                                      delayDuration,
-                                      additionalInfo,
-                                      depart,
-                                      arrival,
-                                      loading
-                                  }: {
+export default ({
+                    journey,
+                    section,
+                    status = "onTime", // 'onTime', 'delayed', 'cancelled'
+                    scheduledTime,
+                    actualTime,
+                    delayDuration,
+                    additionalInfo,
+                    depart,
+                    arrival,
+                    loading
+                }: {
+    journey: Journey;
+    section: JourneySection;
     status?: string;
     scheduledTime: string;
     actualTime?: string;
@@ -20,7 +28,9 @@ export default function CardTrain({
     depart?: string;
     arrival?: string;
     loading: boolean;
-}) {
+}) => {
+    const navigation = useNavigation();
+
     const getBackgroundColor = () => {
         switch (status) {
             case "delayed":
@@ -32,78 +42,72 @@ export default function CardTrain({
         }
     };
 
+    const handleTrainCardPress = () => {
+        setCurrentJourney(journey, section!, depart!, arrival!);
+        navigation.navigate("(details)");
+    }
+
     return (
-        <View style={[styles.container, {backgroundColor: getBackgroundColor()}]}>
-            <View style={styles.trainContainer}>
-                <Text
-                    style={[
-                        styles.trainName,
-                        status !== "onTime" ? styles.whiteText : styles.blackText,
-                    ]}
-                >
-                    {depart}
-                </Text>
-                <View style={styles.destinationContainer}>
-                    <Svg
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke={status !== "onTime" ? "white" : "black"}
-                        strokeWidth={1.5}
-                    >
-                        <Path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499"
-                        />
-                    </Svg>
+        <Pressable onPress={handleTrainCardPress}>
+            <View style={[styles.container, {backgroundColor: getBackgroundColor()}]}>
+                <View style={styles.trainContainer}>
                     <Text
                         style={[
-                            styles.destination,
+                            styles.trainName,
                             status !== "onTime" ? styles.whiteText : styles.blackText,
                         ]}
                     >
-                        {arrival}
+                        {depart}
                     </Text>
+                    <View style={styles.destinationContainer}>
+                        <CornerDownRight style={globalStyles.iconDim}/>
+                        <Text
+                            style={[
+                                styles.destination,
+                                status !== "onTime" ? styles.whiteText : styles.blackText,
+                            ]}
+                        >
+                            {arrival}
+                        </Text>
+                    </View>
+                </View>
+                <View style={styles.timeContainer}>
+                    {status === "delayed" ? (
+                        <>
+                            <View style={styles.delayedTimeContainer}>
+                                <Text style={styles.scheduledTime}>{scheduledTime}</Text>
+                                <Text style={[styles.trainTime, styles.whiteText]}>
+                                    {actualTime}
+                                </Text>
+                            </View>
+                            <Text style={styles.delayText}>Retard de {delayDuration}</Text>
+                            {additionalInfo && (
+                                <Text style={styles.additionalInfo}>{additionalInfo}</Text>
+                            )}
+                        </>
+                    ) : status === "cancelled" ? (
+                        <>
+                            <Text style={[styles.cancelledText, styles.whiteText]}>
+                                SUPPRIMÉ
+                            </Text>
+                            <Text style={[styles.scheduledTime, styles.whiteText]}>
+                                {scheduledTime}
+                            </Text>
+                            {additionalInfo && (
+                                <Text style={styles.additionalInfo}>{additionalInfo}</Text>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            <Text style={[styles.trainTime, styles.blackText]}>
+                                {scheduledTime}
+                            </Text>
+                            <Text style={[styles.blackText]}>à l'heure</Text>
+                        </>
+                    )}
                 </View>
             </View>
-            <View style={styles.timeContainer}>
-                {status === "delayed" ? (
-                    <>
-                        <View style={styles.delayedTimeContainer}>
-                            <Text style={styles.scheduledTime}>{scheduledTime}</Text>
-                            <Text style={[styles.trainTime, styles.whiteText]}>
-                                {actualTime}
-                            </Text>
-                        </View>
-                        <Text style={styles.delayText}>Retard de {delayDuration}</Text>
-                        {additionalInfo && (
-                            <Text style={styles.additionalInfo}>{additionalInfo}</Text>
-                        )}
-                    </>
-                ) : status === "cancelled" ? (
-                    <>
-                        <Text style={[styles.cancelledText, styles.whiteText]}>
-                            SUPPRIMÉ
-                        </Text>
-                        <Text style={[styles.scheduledTime, styles.whiteText]}>
-                            {scheduledTime}
-                        </Text>
-                        {additionalInfo && (
-                            <Text style={styles.additionalInfo}>{additionalInfo}</Text>
-                        )}
-                    </>
-                ) : (
-                    <>
-                        <Text style={[styles.trainTime, styles.blackText]}>
-                            {scheduledTime}
-                        </Text>
-                        <Text style={[styles.blackText]}>à l'heure</Text>
-                    </>
-                )}
-            </View>
-        </View>
+        </Pressable>
     );
 }
 

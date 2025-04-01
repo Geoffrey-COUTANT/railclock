@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     stopCard: {
         borderRadius: 10,
         padding: 15,
+        marginTop: 10,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",

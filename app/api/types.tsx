@@ -20,6 +20,32 @@ export type JourneySection = {
     to: PtObjectStopPointArea,
     from: PtObjectStopPointArea
     type: string
+    display_informations: DisplayInformations
+    links: Link[]
+}
+
+export type VehicleJourney = {
+    id: string,
+    stop_times: StopTime[]
+}
+
+export type StopTime = {
+    arrival_time: string,
+    departure_time: string,
+    stop_point: StopPoint
+}
+
+export type Link = {
+    type: string
+    id: string
+}
+
+export type DisplayInformations = {
+    commercial_mode: string
+    direction: string
+    label: string
+    trip_short_name: string
+    physical_mode: string
 }
 
 export type PtObject = {

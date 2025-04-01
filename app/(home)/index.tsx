@@ -11,6 +11,7 @@ import CardTrain from "@/components/CardTrain";
 import {Ionicons} from '@expo/vector-icons';
 import {getJourneys, getPtObject, searchForPtObject} from "@/app/api/api";
 import {formatTimestamp} from "../api/utils";
+import globalStyles from "@/app/styles";
 
 const trains: any[] | (() => any[]) = [];
 const {height, width} = Dimensions.get("window");
@@ -58,6 +59,8 @@ export default function TabOneScreen() {
                     if (from === to) continue;
 
                     results.push({
+                        journey: journey[i],
+                        section: section,
                         status: "onTime",
                         scheduledTime: formatTimestamp(section.departure_date_time),
                         depart: from,
@@ -99,13 +102,13 @@ export default function TabOneScreen() {
             <Pressable style={styles.button} onPress={handleSearch}>
                 <Text style={styles.buttonText}>Rechercher</Text>
             </Pressable>
-            <Text style={styles.sectionTitle}>Mes trajets</Text>
+            {filteredTrains.length !== 0 && (<Text style={styles.sectionTitle}>Résultats de la recherche</Text>)}
             {filteredTrains.length === 0 && (<Text>Aucun train trouvé. Faites une recherche !</Text>)}
             <FlatList
-                contentContainerStyle={styles.contentContainer}
+                contentContainerStyle={globalStyles.contentContainer}
                 data={filteredTrains}
                 renderItem={({item}) => (
-                    <CardTrain {...item} />
+                    <CardTrain journey={item.journey} section={item.section} {...item} />
                 )}
                 keyExtractor={(item, index) => index.toString()}
             />
@@ -181,12 +184,6 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        width: "100%",
-    },
-    contentContainer: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        gap: 10,
         width: "100%",
     },
     noTrainText: {

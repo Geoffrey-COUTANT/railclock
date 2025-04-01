@@ -1,17 +1,33 @@
-import {Image, StyleSheet} from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
+import {FlatList} from 'react-native';
 import {Text, View} from '@/components/Themed';
 import {CornerDownRight} from "lucide-react-native";
-import {red} from "react-native-reanimated/lib/typescript/Colors";
 import {globalStyles} from "@/app/styles"
 import {BackButton} from "@/components/BackButton";
 import {TrainStopCard, TrainStopCardStyle} from "@/components/TrainStopCard";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import MapView, {Polyline} from "react-native-maps";
+import MapView from "react-native-maps";
+import {VehicleJourney} from "@/app/api/types";
+import {formatTime, formatTimestamp, getCurrentJourney, getLinkId} from "@/app/api/utils";
+import React, {useEffect, useState} from "react";
+import {getVehicleJourney} from "@/app/api/api";
 
 export default function DetailsScreen() {
     const {top} = useSafeAreaInsets();
+    const journey = getCurrentJourney();
+    const [vehicleJourney, setVehicleJourney] = useState<VehicleJourney>();
+
+    useEffect(() => {
+        async function fetchThings() {
+            if (!journey) return;
+
+            let vehicleJourney = await getVehicleJourney(getLinkId(journey.section, "vehicle_journey")!)!;
+            setVehicleJourney(vehicleJourney);
+        }
+
+        fetchThings()
+    }, []);
+
+    if (!journey) return <View><Text>No journey</Text></View>
 
     return (
         <View style={globalStyles.container}>
@@ -29,32 +45,39 @@ export default function DetailsScreen() {
                 <View style={globalStyles.paddedBox}>
                     <View style={globalStyles.horizontalList}>
                         <View style={globalStyles.list}>
-                            <Text style={globalStyles.title}>Bordeaux St Jean</Text>
+                            <Text style={globalStyles.title}>{journey.depart}</Text>
                             <View style={globalStyles.horizontalList}>
                                 <CornerDownRight style={globalStyles.iconDim}/>
-                                <Text style={globalStyles.title}>Ychoux</Text>
+                                <Text style={globalStyles.title}>{journey.arrival}</Text>
                             </View>
                         </View>
                         <View style={globalStyles.full}>
 
                         </View>
                         <View style={globalStyles.listRight}>
-                            <Text style={globalStyles.hourText}>08:00</Text>
-                            <Text style={globalStyles.textBody}>à l'heure</Text>
+                            <Text style={globalStyles.textBody}>départ à</Text>
+                            <Text
+                                style={globalStyles.hourText}>{formatTimestamp(journey.journey.departure_date_time)}</Text>
+                            <Text style={globalStyles.textBody}>arrivera à</Text>
+                            <Text
+                                style={globalStyles.hourText}>{formatTimestamp(journey.journey.arrival_date_time)}</Text>
                         </View>
                     </View>
                 </View>
                 <View style={[globalStyles.paddedBox, globalStyles.noMarginsX]}>
-                    <Text style={globalStyles.textBody}>Train TER L51</Text>
-                    <Text style={globalStyles.textBody}>n° 866543</Text>
+                    <Text
+                        style={globalStyles.textBody}>Train {journey.section.display_informations.commercial_mode} {journey.section.display_informations.label}</Text>
+                    <Text style={globalStyles.textBody}>n° {journey.section.display_informations.trip_short_name}</Text>
                 </View>
-                <View style={[globalStyles.list, globalStyles.paddedBox, globalStyles.listGap]}>
-                    <TrainStopCard style={TrainStopCardStyle.Default} stopName={"Bordeaux St Jean"} stopHour={"08:45"}/>
-                    <TrainStopCard style={TrainStopCardStyle.Default} stopName={"Pessac"} stopHour={"08:50"}/>
-                    <TrainStopCard style={TrainStopCardStyle.Default} stopName={"Biganos Facture"} stopHour={"08:55"}/>
-                    <TrainStopCard style={TrainStopCardStyle.Target} stopName={"Ychoux"} stopHour={"09:00"}/>
-                    <TrainStopCard style={TrainStopCardStyle.Unrelated} stopName={"Labouheyre"} stopHour={"11:00"}/>
-                </View>
+                {vehicleJourney && (
+                    <FlatList
+                        contentContainerStyle={globalStyles.contentContainer}
+                        data={vehicleJourney?.stop_times} renderItem={(item) => {
+                        return <TrainStopCard
+                            style={item.item.stop_point.name === journey?.arrival ? TrainStopCardStyle.Target : TrainStopCardStyle.Default}
+                            stopName={item.item.stop_point.name} stopHour={formatTime(item.item.departure_time)}/>
+                    }} keyExtractor={(item, index) => index.toString()}/>
+                )}
             </View>
         </View>
     );

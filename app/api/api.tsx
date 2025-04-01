@@ -1,5 +1,5 @@
 ﻿import { Buffer } from 'buffer'
-import {Journey, PtObject} from "@/app/api/types";
+import {Journey, PtObject, VehicleJourney} from "@/app/api/types";
 const API_KEY = "0222669c-211d-4042-bc5a-851ed579f629";
 
 export async function fetchAPI(endpoint: string, params: Record<string, string | number | boolean> = {}): Promise<any> {
@@ -34,6 +34,13 @@ export async function getPtObject(query: string): Promise<PtObject | undefined> 
     if (!object) return undefined;
 
     return object.pt_objects[0];
+}
+
+export async function getVehicleJourney(id: string): Promise<VehicleJourney | undefined> {
+    let object = await fetchAPI("vehicle_journeys/" + id)
+    if (!object) return undefined;
+
+    return object.vehicle_journeys[0];
 }
 
 export async function getJourneys(departure: string, arrival: string): Promise<Journey[]> {
