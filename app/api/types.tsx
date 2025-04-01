@@ -67,10 +67,17 @@ export type StopPoint = {
     name: string,
     label: string,
     stop_area: StopArea,
+    coord: GPSCoordinates
 }
 
 export type StopArea = {
     id: string,
     name: string,
     label: string,
+    coord: GPSCoordinates
+}
+
+export type GPSCoordinates = {
+    lat: number,
+    lon: number
 }
