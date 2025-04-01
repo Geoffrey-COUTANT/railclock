@@ -67,7 +67,7 @@ export default function DetailsScreen() {
                                     strokeColor="#460022"
                                     strokeWidth={4}
                                 />
-                                <Marker coordinate={itineraryCoords[itineraryCoords.length - 1]} pinColor={"#00FFFF"} title={journey.arrival} titleVisibility={"visible"}/>
+                                <Marker coordinate={itineraryCoords[itineraryCoords.length - 1]} pinColor={"#000000"} title={journey.arrival} titleVisibility={"visible"}/>
                             </>
                         ) : <></>}
                     </MapView>
