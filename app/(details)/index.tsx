@@ -1,4 +1,4 @@
-import {FlatList} from 'react-native';
+import {ActivityIndicator, FlatList} from 'react-native';
 import {Text, View} from '@/components/Themed';
 import {CornerDownRight} from "lucide-react-native";
 import {globalStyles} from "@/app/styles"
@@ -69,15 +69,14 @@ export default function DetailsScreen() {
                         style={globalStyles.textBody}>Train {journey.section.display_informations.commercial_mode} {journey.section.display_informations.label}</Text>
                     <Text style={globalStyles.textBody}>n° {journey.section.display_informations.trip_short_name}</Text>
                 </View>
-                {vehicleJourney && (
-                    <FlatList
-                        contentContainerStyle={globalStyles.contentContainer}
-                        data={vehicleJourney?.stop_times} renderItem={(item) => {
-                        return <TrainStopCard
-                            style={item.item.stop_point.name === journey?.arrival ? TrainStopCardStyle.Target : TrainStopCardStyle.Default}
-                            stopName={item.item.stop_point.name} stopHour={formatTime(item.item.departure_time)}/>
-                    }} keyExtractor={(item, index) => index.toString()}/>
-                )}
+                {vehicleJourney === undefined ? (
+                    <ActivityIndicator size={"large"}/>) : <FlatList
+                    contentContainerStyle={globalStyles.contentContainer}
+                    data={vehicleJourney?.stop_times} renderItem={(item) => {
+                    return <TrainStopCard
+                        style={item.item.stop_point.name === journey?.arrival ? TrainStopCardStyle.Target : TrainStopCardStyle.Default}
+                        stopName={item.item.stop_point.name} stopHour={formatTime(item.item.departure_time)}/>
+                }} keyExtractor={(item, index) => index.toString()}/>}
             </View>
         </View>
     );
