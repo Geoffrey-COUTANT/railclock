@@ -3,7 +3,7 @@ import {
     TextInput,
     Pressable,
     ScrollView,
-    View, Dimensions, FlatList
+    View, Dimensions, FlatList, ActivityIndicator
 } from "react-native";
 import React from "react";
 import {Text} from "@/components/Themed";
@@ -12,6 +12,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {getJourneys, getPtObject, searchForPtObject} from "@/app/api/api";
 import {formatTimestamp} from "../api/utils";
 import globalStyles from "@/app/styles";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 const trains: any[] | (() => any[]) = [];
 const {height, width} = Dimensions.get("window");
@@ -20,6 +21,9 @@ export default function TabOneScreen() {
     const [departCity, setDepartCity] = React.useState("");
     const [arrivalCity, setArrivalCity] = React.useState("");
     const [filteredTrains, setFilteredTrains] = React.useState(trains);
+    const [isSearching, setIsSearching] = React.useState(false);
+    const {top} = useSafeAreaInsets();
+
     const swapCities = () => {
         setDepartCity(arrivalCity);
         setArrivalCity(departCity);
@@ -30,6 +34,8 @@ export default function TabOneScreen() {
             console.log("Depart/Arrival city is/are empty");
             return
         }
+
+        setIsSearching(true);
 
         let departPtObject = await getPtObject(departCity);
         let arrivalPtObject = await getPtObject(arrivalCity);
@@ -73,12 +79,14 @@ export default function TabOneScreen() {
         } catch (error) {
             console.error(error);
         }
+
+        setIsSearching(false);
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.logoContainer}>
-                <Text style={styles.title}>railclock</Text>
+                <Text style={[styles.title, { marginTop: top }]}>railclock</Text>
             </View>
             <View style={styles.searchBarContainer}>
                 <TextInput
@@ -104,14 +112,14 @@ export default function TabOneScreen() {
             </Pressable>
             {filteredTrains.length !== 0 && (<Text style={styles.sectionTitle}>Résultats de la recherche</Text>)}
             {filteredTrains.length === 0 && (<Text>Aucun train trouvé. Faites une recherche !</Text>)}
-            <FlatList
+            {isSearching ? (<ActivityIndicator size={"large"}/>) : (<FlatList
                 contentContainerStyle={globalStyles.contentContainer}
                 data={filteredTrains}
                 renderItem={({item}) => (
                     <CardTrain journey={item.journey} section={item.section} {...item} />
                 )}
                 keyExtractor={(item, index) => index.toString()}
-            />
+            />)}
         </View>
     );
 }
