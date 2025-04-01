@@ -9,7 +9,6 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import "react-native-reanimated";
 import { useColorScheme } from "@/components/useColorScheme";
 import { StatusBar, View } from "react-native";
 import type { Theme } from "@react-navigation/native/src/types";
